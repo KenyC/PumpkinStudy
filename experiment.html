@@ -3,19 +3,116 @@
 	<head>
 		<title>Experiment</title>
 		<script src="https://unpkg.com/jspsych@7.3.4"></script>
+		<script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.3"></script>
 		<script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
+		<script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.2.0"></script>
+		<script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.3"></script>
+		<!-- <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script> -->
+		<script src="https://unpkg.com/@jspsych/plugin-preload@1.1.3"></script>
 		<link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
+		<style type="text/css">
+			.instructions {
+				text-align: left;
+			}
+		</style>
 	</head>
 	<body>
 		
 	</body>
 	<script type="text/javascript">
-		const jsPsych = initJsPsych();
-		const hello_trial = {
-			type: jsPsychHtmlKeyboardResponse,
-			stimulus: 'Hello world!'
-		}
+		const jsPsych = initJsPsych({
+			on_finish: function() {
+				jsPsych.data.displayData();
+			}
+		});
+		var timeline = [];
 
-		jsPsych.run([hello_trial]);
+		var preload = {
+		  type: jsPsychPreload,
+		  images: ['img/blue.png', 'img/orange.png']
+		};
+		timeline.push(preload);
+
+
+
+		var welcome = {
+			type: jsPsychHtmlButtonResponse,
+			stimulus: "Welcome to the experiment. Press the button to begin.",
+			choices: ["Continue"]
+		}
+		timeline.push(welcome);
+
+		var instructions = {
+		  type: jsPsychSurveyText,
+		  preamble: `
+		  	<p><strong>We invite you to participate in a research study on language
+				and interpretation.</strong></p>
+				<p>We will ask you to rate how true predictions made by a certain
+				character feels to you given a set of objects. The experiment should
+				last about 10 mins.</p>
+				<p>Your participation is voluntary and you can decide to quit the
+				experiment at any time.</p>
+				<p><strong>However, please note that in order to validate the task, you
+				need to complete the experiment and wait until the results are sent
+				(this should take only a few seconds).</strong></p>
+				<p>Otherwise, we have no way to ensure that you participated at all.</p>
+				<p>You will be paid for your participation in this study at the rate
+				posted on Prolific.</p>
+				<p>Your participation in this study will remain confidential. Your
+				individual privacy will be maintained in all published and written data
+				resulting from the study.</p>
+				<p>For further information on the research project, please contact
+				Benjamin Spector <a
+				href="mailto:benjamin.spector@ens.psl.eu">benjamin.spector@ens.psl.eu</a></p>
+			`,
+			css_classes: ['instructions'],
+		  questions: [
+		  	{prompt: "Enter your Prolific Id:", required : true}
+		  ]
+		};
+		timeline.push(instructions);
+
+
+
+		var instructions = {
+		  type: jsPsychHtmlButtonResponse,
+		  stimulus: `
+		  	<h1 id="instructions">Instructions</h1>
+				<p>In each trial, you will see a picture containing geometrical shapes.
+				Without seeing it, Mary made a prediction regarding this picture. You
+				will see Mary’s prediction and you will have to rate how true her
+				prediction feels to you given the picture.</p>
+				<p>There is no “correct answer”. What we are interested in is your
+				intuitive judgment.</p>
+			`,
+			css_classes: ['instructions'],
+		  choices: ["Continue"]
+		};
+		timeline.push(instructions);
+
+
+
+		var trial = {
+		  type: jsPsychSurveyLikert,
+		  preamble : `<img src="img/orange.png">`,
+		  questions: [
+		    {
+		      prompt: "I like vegetables.", 
+		      labels: [
+		        "completely false", 
+		        "", 
+ 		        "", 
+		        "", 
+		        "", 
+		        "", 
+		        "completely true"
+		      ],
+		     	required : true 
+		    }
+		  ]
+		};
+		timeline.push(trial);
+
+		jsPsych.run(timeline);
 	</script>
 </html>
