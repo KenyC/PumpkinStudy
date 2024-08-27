@@ -9,7 +9,7 @@ jobs:
       
       # Step to run the Python script
       - name: Run trial generation script
-        run: python3 script/generate_trials.py
+        run: python3 scripts/generate_trials.py
 
       # Step to replace the content of the repo with the content of the www/ folder
       - name: Replace repo content with www folder content
