@@ -93,7 +93,7 @@
 					intuitive judgment.</p>
 				`,
 				css_classes: ['instructions'],
-			  choices: ["Continue"]
+				choices: ["Continue"]
 			};
 			timeline.push(instructions);
 
@@ -101,10 +101,12 @@
 
 			var trial = {
 				type: jsPsychSurveyLikert,
-				preamble : `<img src="img/orange.png">`,
+				preamble : function()  {
+					return `<img src="${jsPsych.timelineVariable("image_src")}">`;
+				},
 				questions: [
 					{
-						prompt: "I like vegetables.", 
+						prompt:  jsPsych.timelineVariable("sentence"), 
 						labels: [
 							"false", 
 							"true",
@@ -114,7 +116,12 @@
 					}
 				]
 			};
-			timeline.push(trial);
+			var procedure = {
+				timeline: [trial],
+				timeline_variables : trials,
+				randomize_order : true,
+			};
+			timeline.push(procedure);
 
 			jsPsych.run(timeline);
 		}

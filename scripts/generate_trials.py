@@ -47,6 +47,12 @@ conditions = [
 	"uniqfalse"
 ]
 
+item_types_to_frame = {
+	"pumpkinfarmer" : "{quantifier} farmer carved his pumpkin.",
+	"childpresent"  : "{quantifier} child opened his present.",
+}
+
+
 trials = []
 
 
@@ -74,6 +80,7 @@ for (item_type, quantifier, condition) in it.product(item_types, quantifiers, co
 		"condition"  : condition,
 		"item_type"  : item_type,
 		"quantifier" : quantifier,
+		"sentence"   : item_types_to_frame[item_type].format(quantifier = quantifier.capitalize()),
 		"image_src"  : source_image_path
 	})
 
