@@ -16,7 +16,7 @@ jobs:
         run: |
           tmp_dir=$(mktemp -d)
           mv * "$tmp_dir"
-          mv www/* .
+          mv "$tmp_dir"/www/* .
       
       - uses: javidalpe/cognition-deploy-action@v1.1.2
         id: deploy
