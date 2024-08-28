@@ -85,8 +85,8 @@ for (item_type, quantifier, condition) in it.product(item_types, quantifiers, co
 	})
 
 
-# Unfortunatety, to guarantee, that "trials.json" is loaded by Cognition, we need to give a .js extension.
-trials_file_path = os.path.join(args.www, "trials.js")
+# Unfortunatety, to guarantee, that the json file is exportable to Cognition, we need to give it a .jpeg extension.
+trials_file_path = os.path.join(args.www, "trials.jpeg")
 with open(trials_file_path, "w") as f:
 	json.dump(trials, f)
 	print(f"--> {trials_file_path}")

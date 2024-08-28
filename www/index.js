@@ -103,23 +103,32 @@ function jsPsych(trials) {
 	jsPsych.run(timeline);
 }
 
-function displayError() {
-	document.body.innerHTML += `<p style="color: red;">Error: Failed to load trials.js</p>`;
+function displayError(errorMessage) {
+	document.body.innerHTML += `<p style="color: red;">Error: ${errorMessage}</p>`;
 }
 
 // Create a new XMLHttpRequest object
 var xhr = new XMLHttpRequest();
 
-xhr.open('GET', 'trials.js', true);
+xhr.open('GET', 'trials.jpeg', true);
 
 // Set up a function to handle the response data
 xhr.onreadystatechange = function() {
-	if (xhr.readyState === 4 && xhr.status === 200) {
-		var response = JSON.parse(xhr.responseText);
-		jsPsych(response);
+	if (xhr.readyState === 4) {
+		if (xhr.status === 200) {
+			var response = JSON.parse(xhr.responseText);
+			jsPsych(response);
+		} else {
+			// Handle non-200 status codes
+			displayError(`Failed to load trials.jpeg (Status: ${xhr.status} - ${xhr.statusText})`);
+		}
 	}
 };
-xhr.onerror = displayError;
+
+// Handle network errors
+xhr.onerror = function() {
+	displayError('Network error occurred while trying to load trials.jpeg');
+};
 
 // Send the request
 xhr.send();
