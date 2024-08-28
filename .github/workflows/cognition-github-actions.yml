@@ -24,9 +24,8 @@ jobs:
           personal-access-token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
 
       # Manually upload json files as the above script does not do it on its own
-      - name: Replace repo content with www folder content
-        run: |
-          curl -i -X POST "https://www.cognition.run:443/external/api/github/v1/resource/${{ github.event.repository.name }}" -H "Authorization: Bearer ${{secrets.PERSONAL_ACCESS_TOKEN}}" -F "jspsych_version=7.4.3" -F "ignore_js=true" -F "file=@trials.json;filename=trials.json"
+      # - name: Upload json file
+      #   run: |
+      #     curl -i -X POST "https://www.cognition.run:443/external/api/github/v1/resource/${{ github.event.repository.name }}" -H "Authorization: Bearer ${{secrets.PERSONAL_ACCESS_TOKEN}}" -F "jspsych_version=7.3" -F "ignore_js=true" -F "file=@trials.js;filename=trials.js"
 
 
-      - run: echo "The public link to the task is ${{ steps.deploy.outputs.link }}"

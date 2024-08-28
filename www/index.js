@@ -104,13 +104,13 @@ function jsPsych(trials) {
 }
 
 function displayError() {
-	document.body.innerHTML += `<p style="color: red;">Error: Failed to load trials.json</p>`;
+	document.body.innerHTML += `<p style="color: red;">Error: Failed to load trials.js</p>`;
 }
 
 // Create a new XMLHttpRequest object
 var xhr = new XMLHttpRequest();
 
-xhr.open('GET', 'trials.json', true);
+xhr.open('GET', 'trials.js', true);
 
 // Set up a function to handle the response data
 xhr.onreadystatechange = function() {
